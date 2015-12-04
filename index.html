@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Remi</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style media="screen">
+      #worldPane{
+        margin-top: 1rem;
+        height: auto;
+        width: auto;
+        background-color: rgb(161, 174, 184);
+        box-shadow: .1rem .1rem .1rem 0rem #000000;
+        line-height: 0 !important;
+        border-radius: 1rem;
+        border-top: .1rem solid grey;
+        border-left: .1rem solid grey;
+      }
+      #statusPane{
+        margin-top: .5rem;
+        height: auto;
+        background-color: rgb(161, 174, 184);
+        box-shadow: .1rem .1rem .1rem 0rem #000000;
+        border-radius: 1rem;
+      }
+      .grid{
+        margin-top: 0;
+        margin-bottom: 0;
+        display: inline-block;
+        height:2.5rem;
+        width:2.5rem;
+        box-shadow: .1rem .1rem .1rem 0rem #000000;
+      }
+      .conx, .conUx{
+        background: radial-gradient(rgb(0, 0, 0), rgb(255, 255, 255),rgb(0, 0, 0));
+        border-radius: 50%;
+      }
+      .con1{
+        background-color: rgb(61, 77, 92);
+        border-right: .2rem solid black;
+        border-bottom: .2rem solid black;
+      }
+      .conU1{
+        background-color: rgb(0, 0, 0);
+        border-right: .2rem solid black;
+        border-bottom: .2rem solid black;
+      }
+      .con2{
+        background-color: rgb(78, 147, 85);
+        box-shadow: .3rem .3rem .3rem .1rem #000000;
+      }
+      .conU2{
+        background-color: rgb(113, 84, 27);
+        box-shadow: .3rem .3rem .3rem .1rem #000000;
+      }
+      .con3{
+        background: radial-gradient(rgb(255, 255, 255), rgb(255, 0, 255),rgb(225, 255, 225));
+        border-radius: 50%;
+      }
+      .conU3{
+        background: radial-gradient(rgb(50, 50, 50), rgb(255, 50, 255),rgb(50, 50, 50));
+        border-radius: 50%;
+      }
+      .fade10{
+        opacity: .1;
+      }
+      .fade9{
+        opacity: 0.2;
+      }
+      .fade8{
+        opacity: 0.3;
+      }
+      .fade7{
+        opacity: 0.4;
+      }
+      .fade6{
+        opacity: 0.5;
+      }
+      .fade5{
+        opacity: 0.6;
+      }
+      .fade4{
+        opacity: 0.7;
+      }
+      .fade3{
+        opacity: 0.8;
+      }
+      .fade2{
+        opacity: 0.9;
+      }
+      .fade1{
+        opacity: 1.0;
+      }
+      .btn{
+        box-shadow: .1rem .1rem .1rem 0rem #000000;
+      }
+      .statsItem{
+        box-shadow: .1rem .1rem .1rem 0rem #000000;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12" id="worldPane">
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12" id="statusPane">
+          <div class="row">
+            <div class="col-md-2 statusBar">
+              <div class="row">
+                <button type="button" class="btn btn-success" id="btnInv">
+                  Inventory
+                </button>
+              </div>
+              <div class="row">
+                <button type="button" class="btn btn-default" id="btnRetinue">
+                  Retinue
+                </button>
+              </div>
+            </div>
+            <div class="col-md-10">
+              <div class="row">
+                <div class="col-md-4 statusBar" id="stats">
+                  Stats
+                </div>
+                <div class="col-md-8 statusBar">
+                  Things
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="app.js" charset="utf-8"></script>
+  </body>
+</html>
