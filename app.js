@@ -137,7 +137,7 @@ function game(){
     hero.atr.agility = 8;
     hero.atr.intelligence = 8;
     hero.atr.charisma = 8;
-    hero.atr.sight = 8;
+    hero.atr.sight = 2;
     return hero;
   };
 
@@ -300,14 +300,16 @@ function game(){
         {
           var fadeLvl = 0;
           var fade = false;
-          if(j-remi.location.x >= this.scope - remi.atr.sight){
+          if(j-remi.location.x <= this.scope + remi.atr.sight){
             fadeLvl = j-remi.location.x;
             fade = true;
           }
-          else if(remi.location.x - j >= this.scope - remi.atr.sight){
+          else if(remi.location.x - j > this.scope - remi.atr.sight){
             fadeLvl = remi.location.x - j;
             fade = true;
           }
+
+          /*
           else if(i-remi.location.y >= this.scope - remi.atr.sight){
             fadeLvl = i-remi.location.y;
             fade = true;
@@ -316,6 +318,7 @@ function game(){
             fadeLvl = remi.location.y - i;
             fade = true;
           }
+          */
 
           if(fade)
           {
