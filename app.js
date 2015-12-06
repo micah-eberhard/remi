@@ -300,26 +300,21 @@ function game(){
         {
           var fadeLvl = 0;
           var fade = false;
-          if(j-remi.location.x <= this.scope + remi.atr.sight){
-            fadeLvl = j-remi.location.x;
-            fade = true;
-          }
-          else if(remi.location.x - j > this.scope - remi.atr.sight){
-            fadeLvl = remi.location.x - j;
-            fade = true;
-          }
+          if((j-remi.location.x <= this.scope + remi.atr.sight)&&(i-remi.location.y <= this.scope + remi.atr.sight)){
+            var ySet = i-remi.location.y;
+            var xSet = j-remi.location.x;
+            if(parseFloat(ySet) < 0)
+              ySet = ySet *-1;
+            if(parseFloat(xSet) < 0)
+              xSet = xSet *-1;
 
-          /*
-          else if(i-remi.location.y >= this.scope - remi.atr.sight){
-            fadeLvl = i-remi.location.y;
-            fade = true;
-          }
-          else if(remi.location.y - i >= this.scope - remi.atr.sight){
-            fadeLvl = remi.location.y - i;
-            fade = true;
-          }
-          */
+            if(xSet > ySet)
+              fadeLvl = xSet;
+            else
+              fadeLvl = ySet;
 
+            fade = true;
+          }
           if(fade)
           {
             col = col + '<div class="grid loc'+i+','+j +' conU' + this.map[j][i].content +' fade'+fadeLvl+'">'+'</div>';
