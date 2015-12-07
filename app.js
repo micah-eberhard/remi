@@ -137,7 +137,7 @@ function game(){
     hero.atr.agility = 8;
     hero.atr.intelligence = 8;
     hero.atr.charisma = 8;
-    hero.atr.sight = 2;
+    hero.atr.sight = 9;
     return hero;
   };
 
