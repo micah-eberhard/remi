@@ -254,6 +254,7 @@ function game(){
     {
       world.toOrigin(remi.location);
       world = belowWorld;
+      world.map[remi.location.x][remi.location.y].content = 'x';
       world.display();
 
     }
@@ -261,24 +262,22 @@ function game(){
     {
       world.toOrigin(remi.location);
       world = mainWorld;
+      world.map[remi.location.x][remi.location.y].content = 'x';
       world.display();
     }
     console.log("ehh?");
   });
-/*
-  var mainWorld = function(){
-    var self = worldCreate;
-    //self.init();
-    return self;
-  };
-  */
+/**********************
+Main game start functions:
+Multiple World Creation
+Initial Display
+
+**********************/
 
   var mainWorld = new worldCreate();
-  //mainWorld.init();
   var belowWorld = new worldCreate();
-  //belowWorld.init();
+
   var world = mainWorld;
-  //var belowMap = new world.map();
 
   var remi = hero();
   remi.location.x = Math.round(world.width/2);
@@ -288,7 +287,7 @@ function game(){
 
   mainWorld.init();
   belowWorld.init();
-  //world.init();
+  world.map[remi.location.x][remi.location.y].content = 'x';
   world.display();
 
   belowWorld.display = function(){
