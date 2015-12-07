@@ -137,7 +137,8 @@ function game(){
     hero.atr.agility = 8;
     hero.atr.intelligence = 8;
     hero.atr.charisma = 8;
-    hero.atr.sight = 9;
+    hero.atr.sight = 4;
+    hero.atr.sightOrigin = hero.atr.sight;
     return hero;
   };
 
@@ -199,6 +200,26 @@ function game(){
       }
       return char;
     },
+    getFadeLvl : function(i,j){
+      if((j-remi.location.x <= this.scope + remi.atr.sight)&&(i-remi.location.y <= this.scope + remi.atr.sight)){
+        fadeLvl = 0;
+        var ySet = i-remi.location.y;
+        var xSet = j-remi.location.x;
+        if(parseFloat(ySet) < 0)
+          ySet = ySet *-1;
+        if(parseFloat(xSet) < 0)
+          xSet = xSet *-1;
+
+        if(xSet > ySet)
+          fadeLvl = xSet;
+        else
+          fadeLvl = ySet;
+
+        fadeLvl = fadeLvl - remi.atr.sight;
+        //fade = true;
+      }
+      return fadeLvl;
+    },
     display: function(){
       var dispStr = '';
       for(var i=remi.location.y-this.scope; i < remi.location.y+this.scope; i++)
@@ -206,7 +227,15 @@ function game(){
         var col = '<div class="row r'+i+'">';
         for(var j=remi.location.x-this.scope; j < remi.location.x+this.scope; j++)
         {
-          col = col + '<div class="grid loc'+i+','+j +' con' + this.map[j][i].content +'">'+'</div>';
+          var fadeLvl = false;
+          fadeLvl = this.getFadeLvl(i,j);
+          if(fadeLvl)
+          {
+            col = col + '<div class="grid loc'+i+','+j +' con' + this.map[j][i].content +' fade'+fadeLvl+'">'+'</div>';
+          }
+          else {
+            col = col + '<div class="grid loc'+i+','+j +' con' + this.map[j][i].content +'">'+'</div>';
+            }
         }
         col = col +'</div>';
         dispStr = dispStr + col;
@@ -255,6 +284,7 @@ function game(){
       world.toOrigin(remi.location);
       world = belowWorld;
       world.map[remi.location.x][remi.location.y].content = 'x';
+      remi.atr.sight = Math.floor(remi.atr.sight / 5);
       world.display();
 
     }
@@ -263,6 +293,7 @@ function game(){
       world.toOrigin(remi.location);
       world = mainWorld;
       world.map[remi.location.x][remi.location.y].content = 'x';
+      remi.atr.sight = remi.atr.sightOrigin;
       world.display();
     }
     console.log("ehh?");
@@ -297,24 +328,9 @@ Initial Display
         var col = '<div class="row r'+i+'">';
         for(var j=remi.location.x-this.scope; j < remi.location.x+this.scope; j++)
         {
-          var fadeLvl = 0;
-          var fade = false;
-          if((j-remi.location.x <= this.scope + remi.atr.sight)&&(i-remi.location.y <= this.scope + remi.atr.sight)){
-            var ySet = i-remi.location.y;
-            var xSet = j-remi.location.x;
-            if(parseFloat(ySet) < 0)
-              ySet = ySet *-1;
-            if(parseFloat(xSet) < 0)
-              xSet = xSet *-1;
-
-            if(xSet > ySet)
-              fadeLvl = xSet;
-            else
-              fadeLvl = ySet;
-
-            fade = true;
-          }
-          if(fade)
+          var fadeLvl = false;
+          fadeLvl = this.getFadeLvl(i,j);
+          if(fadeLvl)
           {
             col = col + '<div class="grid loc'+i+','+j +' conU' + this.map[j][i].content +' fade'+fadeLvl+'">'+'</div>';
           }

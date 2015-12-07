@@ -17,16 +17,22 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style media="screen">
+      body{
+        background-color: rgb(161, 174, 184);
+      }
       #worldPane{
         margin-top: 1rem;
         height: auto;
         width: auto;
         background-color: rgb(161, 174, 184);
-        box-shadow: .1rem .1rem .1rem 0rem #000000;
+        /*box-shadow: .1rem .1rem .1rem 0rem #000000;*/
         line-height: 0 !important;
         border-radius: 1rem;
+
+        /*
         border-top: .1rem solid grey;
         border-left: .1rem solid grey;
+        */
       }
       #statusPane{
         margin-top: .5rem;
@@ -41,7 +47,7 @@
         display: inline-block;
         height:2.5rem;
         width:2.5rem;
-        box-shadow: .1rem .1rem .1rem 0rem #000000;
+        /*box-shadow: .1rem .1rem .1rem 0rem #000000;*/
       }
       .conx, .conUx{
         background: radial-gradient(rgb(0, 0, 0), rgb(255, 255, 255),rgb(0, 0, 0));
@@ -74,34 +80,40 @@
         border-radius: 50%;
       }
       .fade10{
-        opacity: .1;
+        opacity: 0.02;
       }
       .fade9{
-        opacity: 0.2;
+        opacity: 0.08;
       }
       .fade8{
-        opacity: 0.3;
+        opacity: 0.15;
       }
       .fade7{
-        opacity: 0.4;
+        opacity: 0.23;
       }
       .fade6{
-        opacity: 0.5;
+        opacity: 0.35;
       }
       .fade5{
-        opacity: 0.6;
+        opacity: 0.42;
       }
       .fade4{
-        opacity: 0.7;
+        opacity: 0.55;
       }
       .fade3{
-        opacity: 0.8;
+        opacity: 0.62;
       }
       .fade2{
-        opacity: 0.9;
+        opacity: 0.75;
       }
       .fade1{
-        opacity: 1.0;
+        opacity: 0.9;
+      }
+      .fade-1{
+      }
+      .fade-2{
+      }
+      .fade-3{
       }
       .btn{
         box-shadow: .1rem .1rem .1rem 0rem #000000;
@@ -115,7 +127,13 @@
   <body>
     <div class="container">
       <div class="row">
-        <div class="col-md-12" id="worldPane">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-6" id="worldPane">
+
+        </div>
+        <div class="col-md-3">
 
         </div>
       </div>
