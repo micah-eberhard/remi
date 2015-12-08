@@ -220,21 +220,75 @@ function game(){
       }
       return fadeLvl;
     },
+    superCoverLine : function(p0, p1) {
+    var Point = function(newX,newY){
+      return{
+        x:newX,
+        y:newY
+      };
+    };
+    var dx = p1.x-p0.x, dy = p1.y-p0.y;
+    var nx = Math.abs(dx), ny = Math.abs(dy);
+    var sign_x = dx > 0? 1 : -1, sign_y = dy > 0? 1 : -1;
+
+    var p = new Point(p0.x, p0.y);
+    var points = [new Point(p.x, p.y)];
+      for (var ix = 0, iy = 0; ix < nx || iy < ny;) {
+        if ((0.5+ix) / nx == (0.5+iy) / ny) {
+            // next step is diagonal
+            p.x += sign_x;
+            p.y += sign_y;
+            ix++;
+            iy++;
+          } else if ((0.5+ix) / nx < (0.5+iy) / ny) {
+            // next step is horizontal
+            p.x += sign_x;
+            ix++;
+          } else {
+            // next step is vertical
+            p.y += sign_y;
+            iy++;
+        }
+        points.push(new Point(p.x, p.y));
+      }
+    return points;
+    },
     display: function(){
       var dispStr = '';
+      //var fullView = [];
       for(var i=remi.location.y-this.scope; i < remi.location.y+this.scope; i++)
       {
         var col = '<div class="row r'+i+'">';
         for(var j=remi.location.x-this.scope; j < remi.location.x+this.scope; j++)
         {
+          var currLoc = {
+            x: j,
+            y: i
+          };
           var fadeLvl = false;
           fadeLvl = this.getFadeLvl(i,j);
-          if(fadeLvl)
+
+          var arrView = this.superCoverLine(remi.location, currLoc);
+          var view = true;
+          for(var k = 1; k < arrView.length-1; k++)
           {
-            col = col + '<div class="grid loc'+i+','+j +' con' + this.map[j][i].content +' fade'+fadeLvl+'">'+'</div>';
+            if(this.map[arrView[k].x][arrView[k].y].content === 1)
+            {
+              view =  false;
+              console.log("view: false");
+            }
+          }
+          if(!view)
+          {
+            col = col + '<div class="grid loc'+i+','+j +' con' + this.map[j][i].content +' fade'+fadeLvl+' vHide">'+'</div>';
+          }
+
+          else if(fadeLvl)
+          {
+            col = col + '<div class="grid loc'+i+','+j +' con' + this.map[j][i].content +' fade'+fadeLvl+' vShow">'+'</div>';
           }
           else {
-            col = col + '<div class="grid loc'+i+','+j +' con' + this.map[j][i].content +'">'+'</div>';
+            col = col + '<div class="grid loc'+i+','+j +' con' + this.map[j][i].content +' vShow">'+'</div>';
             }
         }
         col = col +'</div>';
@@ -328,14 +382,34 @@ Initial Display
         var col = '<div class="row r'+i+'">';
         for(var j=remi.location.x-this.scope; j < remi.location.x+this.scope; j++)
         {
+          var currLoc = {
+            x: j,
+            y: i
+          };
           var fadeLvl = false;
           fadeLvl = this.getFadeLvl(i,j);
-          if(fadeLvl)
+
+          var arrView = this.superCoverLine(remi.location, currLoc);
+          var view = true;
+          for(var k = 1; k < arrView.length-1; k++)
           {
-            col = col + '<div class="grid loc'+i+','+j +' conU' + this.map[j][i].content +' fade'+fadeLvl+'">'+'</div>';
+            if(this.map[arrView[k].x][arrView[k].y].content === 1)
+            {
+              view =  false;
+              console.log("view: false");
+            }
+          }
+          if(!view)
+          {
+            col = col + '<div class="grid loc'+i+','+j +' conU' + this.map[j][i].content +' fade'+fadeLvl+' vHide">'+'</div>';
+          }
+
+          else if(fadeLvl)
+          {
+            col = col + '<div class="grid loc'+i+','+j +' conU' + this.map[j][i].content +' fade'+fadeLvl+' vShow">'+'</div>';
           }
           else {
-            col = col + '<div class="grid loc'+i+','+j +' conU' + this.map[j][i].content +'">'+'</div>';
+            col = col + '<div class="grid loc'+i+','+j +' conU' + this.map[j][i].content +' vShow">'+'</div>';
             }
         }
         col = col +'</div>';
