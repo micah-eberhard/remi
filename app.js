@@ -94,7 +94,7 @@ function game(){
           if(moveValid(newLoc))
           {
             world.toOrigin(char.location);
-            world.map[newLoc.x][newLoc.y].content = 'x';
+            world.map[newLoc.x][newLoc.y].content = char.content;
             //console.log(world.map[newLoc.x]);
             char.location = newLoc;
           }
@@ -119,7 +119,7 @@ function game(){
 
       Init: function() {
         this.actions.Parent = this;
-        delete this.Init;
+        //delete this.Init;
         return this;
     }
     };
@@ -127,8 +127,20 @@ function game(){
 
   var human = function(){
     human = BuildEntity().Init();
-    human.health = 20;
+    human.atr.health = 20;
     return human;
+  };
+  var boar = function(){
+    boar = BuildEntity().Init();
+    delete boar.Init;
+    boar.atr.health = 4;
+    boar.atr.strength = 2;
+    boar.atr.agility = 1;
+    boar.atr.intelligence = 1;
+    boar.atr.charisma = 1;
+    boar.atr.sight = 3;
+    boar.content = 'b';
+    return boar;
   };
   var hero = function(){
     hero = BuildEntity().Init();
@@ -137,9 +149,14 @@ function game(){
     hero.atr.agility = 8;
     hero.atr.intelligence = 8;
     hero.atr.charisma = 8;
+    hero.content = 'x';
     hero.atr.sight = 4;
     hero.atr.sightOrigin = hero.atr.sight;
     return hero;
+  };
+  var charMap = {
+    b:boar,
+    h:human
   };
 
   var worldCreate = function(){
@@ -157,6 +174,8 @@ function game(){
           this.map[i][j] = {};
           this.map[i][j].content = this.randomItem();
           this.map[i][j].origin = this.map[i][j].content;
+          if(this.map[i][j].content !== 1)
+            this.map[i][j] = this.randomEntity(this.map[i][j]);
         }
       }
     },
@@ -198,6 +217,26 @@ function game(){
       } else {
         char = 0;
       }
+      return char;
+    },
+    randomEntity: function(currThings){
+      var item = Math.floor(Math.random()*100);
+      var char = {};
+      if(item > 60)
+      {
+        char = currThings;
+        //char.content = 'b';
+      } else if (item >58) {
+        char = currThings;
+        char.content = 'b';
+      } else if (item >54) {
+        char = currThings;
+      } else if (item > 45) {
+        char = currThings;
+      } else {
+        char = currThings;
+      }
+      char.origin = currThings.origin;
       return char;
     },
     getFadeLvl : function(i,j){
@@ -319,6 +358,23 @@ function game(){
     return pass;
   }
 
+  function fillWorld(currWorld)
+  {
+    for(var i=0; i < currWorld.width; i++)
+    {
+      for(var j=0; j < currWorld.height; j++)
+      {
+        if(charMap[currWorld.map[i][j].content] !== undefined)
+        {
+          var hold = currWorld.map[i][j].origin;
+          currWorld.map[i][j] = new charMap[currWorld.map[i][j].content];
+          currWorld.map[i][j].location = {x:i,y:j};
+          currWorld.map[i][j].origin = hold;
+        }
+      }
+    }
+  }
+
   window.addEventListener('keypress', function(event){
     var press = String.fromCharCode(event.charCode);
     var locString = '';
@@ -326,7 +382,6 @@ function game(){
       x : remi.location.x,
       y : remi.location.y
     };
-    console.log("Inside");
 
     if (press ==='w' || press ==='s' || press ==='a' || press ==='d')
     {
@@ -350,7 +405,6 @@ function game(){
       remi.atr.sight = remi.atr.sightOrigin;
       world.display();
     }
-    console.log("ehh?");
   });
 /**********************
 Main game start functions:
@@ -372,6 +426,8 @@ Initial Display
 
   mainWorld.init();
   belowWorld.init();
+  fillWorld(mainWorld);
+  fillWorld(belowWorld);
   world.map[remi.location.x][remi.location.y].content = 'x';
   world.display();
 
