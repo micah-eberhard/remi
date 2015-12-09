@@ -93,8 +93,10 @@ function game(){
           }
           if(moveValid(newLoc))
           {
+            var hold = world.map[newLoc.x][newLoc.y].origin;
             world.toOrigin(char.location);
-            world.map[newLoc.x][newLoc.y].content = char.content;
+            world.map[newLoc.x][newLoc.y] = char;
+            world.map[newLoc.x][newLoc.y].origin = hold;
             //console.log(world.map[newLoc.x]);
             char.location = newLoc;
           }
@@ -139,6 +141,7 @@ function game(){
     boar.atr.intelligence = 1;
     boar.atr.charisma = 1;
     boar.atr.sight = 3;
+    boar.atr.speed = 1;
     boar.content = 'b';
     return boar;
   };
@@ -180,7 +183,10 @@ function game(){
       }
     },
     toOrigin: function(loc){
-      world.map[loc.x][loc.y].content = world.map[loc.x][loc.y].origin;
+      var origin = this.map[loc.x][loc.y].origin;
+      this.map[loc.x][loc.y] = {};
+      this.map[loc.x][loc.y].content = origin;
+      this.map[loc.x][loc.y].origin = origin;
     },
     step: function(){
       /*
@@ -314,7 +320,7 @@ function game(){
             if(this.map[arrView[k].x][arrView[k].y].content === 1)
             {
               view =  false;
-              console.log("view: false");
+              //console.log("view: false");
             }
           }
           if(!view)
@@ -345,7 +351,7 @@ function game(){
   };
   function runGame()
   {
-    world.step();
+    moveWorld(world);
     world.display();
   }
   function moveValid(loc)
@@ -367,12 +373,53 @@ function game(){
         if(charMap[currWorld.map[i][j].content] !== undefined)
         {
           var hold = currWorld.map[i][j].origin;
-          currWorld.map[i][j] = new charMap[currWorld.map[i][j].content];
+          currWorld.map[i][j] = new charMap[currWorld.map[i][j].content]();
           currWorld.map[i][j].location = {x:i,y:j};
           currWorld.map[i][j].origin = hold;
         }
       }
     }
+  }
+
+  function moveWorld(currWorld)
+  {
+    for(var i=remi.location.x-world.scope; i < remi.location.x+world.scope; i++)
+    {
+      var col = '<div class="row r'+i+'">';
+      for(var j=remi.location.y-world.scope; j < remi.location.y+world.scope; j++)
+      {
+        if(charMap[currWorld.map[i][j].content] !== undefined)
+        {
+          //var hold = currWorld.map[i][j].origin;
+          currWorld.map[i][j].actions.move(randomDir());
+        }
+      }
+    }
+  }
+
+  function randomDir()
+  {
+    var dir = '';
+    var randDir = Math.floor(Math.random()*4);
+    switch(randDir){
+      case 0:
+        dir = 'w';
+        break;
+      case 1:
+        dir = 's';
+        break;
+      case 2:
+        dir = 'a';
+        break;
+      case 3:
+        dir = 'd';
+        break;
+      default:
+        dir = 'w';
+        break;
+    }
+  //  console.log(dir);
+    return dir;
   }
 
   window.addEventListener('keypress', function(event){
@@ -452,7 +499,7 @@ Initial Display
             if(this.map[arrView[k].x][arrView[k].y].content === 1)
             {
               view =  false;
-              console.log("view: false");
+              //console.log("view: false");
             }
           }
           if(!view)
@@ -482,9 +529,9 @@ Initial Display
 
 
   btnInv.addEventListener('click', function(event){
-    /*setInterval(function(){
+    setInterval(function(){
     runGame();
-  }, 10);*/
+  }, 500);
   });
 
 }
