@@ -531,7 +531,7 @@ Initial Display
   btnInv.addEventListener('click', function(event){
     setInterval(function(){
     runGame();
-  }, 500);
+  }, 1000);
   });
 
 }
