@@ -121,9 +121,9 @@ function game(){
 
       Init: function() {
         this.actions.Parent = this;
-        //delete this.Init;
+        delete this.Init;
         return this;
-    }
+      }
     };
   };
 
@@ -154,7 +154,7 @@ function game(){
     hero.atr.charisma = 8;
     hero.content = 'x';
     hero.atr.sight = 4;
-    hero.atr.sightOrigin = hero.atr.sight;
+    hero.atr._sightOrigin = hero.atr.sight;
     return hero;
   };
   var charMap = {
@@ -340,10 +340,16 @@ function game(){
         dispStr = dispStr + col;
       }
       worldPane.innerHTML = dispStr;
+      this.statsDisplay();
+    },
+    statsDisplay: function(){
       var statsStr = '';
       for(var item in remi.atr)
       {
-        statsStr = statsStr + '<div class="row statsItem atr:'+item+'">'+item+': '+remi.atr[item]+'</div>';
+        if(item[0] !== '_')
+        {
+          statsStr = statsStr + '<div class="row statsItem atr:'+item+'">'+item+': '+remi.atr[item]+'</div>';
+        }
       }
       statsPane.innerHTML = statsStr;
     }
@@ -449,7 +455,7 @@ function game(){
       world.toOrigin(remi.location);
       world = mainWorld;
       world.map[remi.location.x][remi.location.y].content = 'x';
-      remi.atr.sight = remi.atr.sightOrigin;
+      remi.atr.sight = remi.atr._sightOrigin;
       world.display();
     }
   });
@@ -519,12 +525,7 @@ Initial Display
         dispStr = dispStr + col;
       }
       worldPane.innerHTML = dispStr;
-      var statsStr = '';
-      for(var item in remi.atr)
-      {
-        statsStr = statsStr + '<div class="row statsItem atr:'+item+'">'+item+': '+remi.atr[item]+'</div>';
-      }
-      statsPane.innerHTML = statsStr;
+      this.statsDisplay();
     };
 
 
