@@ -188,26 +188,6 @@ function game(){
       this.map[loc.x][loc.y].content = origin;
       this.map[loc.x][loc.y].origin = origin;
     },
-    step: function(){
-      /*
-      for(var i=1; i < this.width; i++)
-      {
-        for(var j=0; j < this.height; j++)
-        {
-          this.map[i-1][j].content = this.map[i][j].content;
-        }
-        if(i == this.width-1){
-          this.buildLine();
-        }
-      }
-      */
-    },
-    buildLine: function(){
-      for(var j = 0; j < this.height; j++)
-      {
-        this.map[this.width-1][j].content = this.randomItem();
-      }
-    },
     randomItem: function(){
       var item = Math.floor(Math.random()*100);
       var char = 0;
@@ -231,7 +211,6 @@ function game(){
       if(item > 60)
       {
         char = currThings;
-        //char.content = 'b';
       } else if (item >58) {
         char = currThings;
         char.content = 'b';
@@ -261,7 +240,6 @@ function game(){
           fadeLvl = ySet;
 
         fadeLvl = fadeLvl - remi.atr.sight;
-        //fade = true;
       }
       return fadeLvl;
     },
@@ -300,7 +278,6 @@ function game(){
     },
     display: function(){
       var dispStr = '';
-      //var fullView = [];
       for(var i=remi.location.y-this.scope; i < remi.location.y+this.scope; i++)
       {
         var col = '<div class="row r'+i+'">';
@@ -424,7 +401,6 @@ function game(){
         dir = 'w';
         break;
     }
-  //  console.log(dir);
     return dir;
   }
 
@@ -448,7 +424,6 @@ function game(){
       world.map[remi.location.x][remi.location.y].content = 'x';
       remi.atr.sight = Math.floor(remi.atr.sight / 5);
       world.display();
-
     }
     if (press ==='f')
     {
