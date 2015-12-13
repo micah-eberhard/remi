@@ -297,7 +297,6 @@ function game(){
             if(this.map[arrView[k].x][arrView[k].y].content === 1)
             {
               view =  false;
-              //console.log("view: false");
             }
           }
           if(!view)
