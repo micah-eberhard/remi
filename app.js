@@ -163,6 +163,7 @@ function game(){
   };
 
   var worldCreate = function(){
+    var rowHold = [];
     return{
     map: [],
     height: 500,
@@ -175,11 +176,20 @@ function game(){
         for(var j=0; j < this.height; j++)
         {
           this.map[i][j] = {};
-          this.map[i][j].content = this.randomItem();
+          if((rowHold[j]) && (rowHold[j].content === 1 || this.map[i][j-1] === 1)){
+            this.map[i][j].content = this.randomItem('wall');
+          }else if((rowHold[j]) && (rowHold[j].content === 0 || this.map[i][j-1] === 0)){
+            this.map[i][j].content = this.randomItem('open');
+          }else if((rowHold[j]) && (rowHold[j].content === 2 || this.map[i][j-1] === 2)){
+            this.map[i][j].content = this.randomItem('grass');
+          }else {
+            this.map[i][j].content = this.randomItem();
+          }
           this.map[i][j].origin = this.map[i][j].content;
           if(this.map[i][j].content !== 1)
             this.map[i][j] = this.randomEntity(this.map[i][j]);
         }
+        rowHold = this.map[i];
       }
     },
     toOrigin: function(loc){
@@ -191,16 +201,55 @@ function game(){
     randomItem: function(){
       var item = Math.floor(Math.random()*100);
       var char = 0;
-      if(item > 50)
-      {
-        char = 0;
-      } else if (item >30) {
-        char = 1;
-      } else if (item >12) {
-        char = 2;
-      } else if (item > 10) {
-        char = 3;
-      } else {
+      var mod = arguments[0];
+      if(!mod){
+        if(item > 50)
+        {
+          char = 0;
+        } else if (item >30) {
+          char = 1;
+        } else if (item >12) {
+          char = 2;
+        } else if (item > 10) {
+          char = 3;
+        }
+      }else if(mod === 'wall') {
+        if(item > 25)
+        {
+          char = 1;
+        } else if (item >20) {
+          char = 0;
+        } else if (item >12) {
+          char = 2;
+        } else if (item > 10) {
+          char = 3;
+        } else {
+          char = 0;
+        }
+      }else if(mod === 'open') {
+        if(item > 25)
+        {
+          char = 0;
+        } else if (item >20) {
+          char = 2;
+        } else if (item >12) {
+          char = 1;
+        } else if (item > 10) {
+          char = 3;
+        }
+      }
+      else if(mod === 'grass') {
+        if(item > 25)
+        {
+          char = 2;
+        } else if (item >20) {
+          char = 0;
+        } else if (item >12) {
+          char = 1;
+        } else if (item > 10) {
+          char = 3;
+        }
+      }else {
         char = 0;
       }
       return char;
