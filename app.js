@@ -169,6 +169,59 @@ function game(){
     height: 500,
     width: 1000,
     scope: 10,
+    textureMap: {
+      types:{
+        0:'open',
+        1:'wall',
+        2:'grass',
+        3:'tree'
+      },
+      wall:{
+        isWalkable:false,
+        size:4,
+        0:20,
+        1:40,
+        2:25,
+        3:2,
+        'default':0
+      },
+      open: {
+        isWalkable:true,
+        size:4,
+        0:75,
+        1:1,
+        2:12,
+        3:2,
+        'default':0
+      },
+      grass: {
+        isWalkable:true,
+        size:4,
+        0:5,
+        1:17,
+        2:75,
+        3:2,
+        'default':0
+      },
+      tree: {
+        isWalkable:true,
+        size:4,
+        0:50,
+        1:5,
+        2:35,
+        3:0,
+        'default':0
+      },
+      base: {
+        isWalkable:true,
+        size:4,
+        0:40,
+        1:35,
+        2:15,
+        3:2,
+        'default':0
+      }
+    },
     init: function(){
       for(var i=0; i < this.width; i++)
       {
@@ -176,12 +229,8 @@ function game(){
         for(var j=0; j < this.height; j++)
         {
           this.map[i][j] = {};
-          if((rowHold[j]) && (rowHold[j].content === 1 || this.map[i][j-1] === 1)){
-            this.map[i][j].content = this.randomItem('wall');
-          }else if((rowHold[j]) && (rowHold[j].content === 0 || this.map[i][j-1] === 0)){
-            this.map[i][j].content = this.randomItem('open');
-          }else if((rowHold[j]) && (rowHold[j].content === 2 || this.map[i][j-1] === 2)){
-            this.map[i][j].content = this.randomItem('grass');
+          if((rowHold[j]) && (this.textureMap.types[rowHold[j].content] !== undefined || this.textureMap.types[this.map[i][j-1]] !== undefined)){
+            this.map[i][j].content = this.randomItem(this.textureMap.types[rowHold[j].content]);
           }else {
             this.map[i][j].content = this.randomItem();
           }
@@ -203,54 +252,29 @@ function game(){
       var char = 0;
       var mod = arguments[0];
       if(!mod){
-        if(item > 50)
+        var chances = this.textureMap.base;
+        var hold = 0;
+        for(var i=0; i < chances.size && !char; i++)
         {
-          char = 0;
-        } else if (item >30) {
-          char = 1;
-        } else if (item >12) {
-          char = 2;
-        } else if (item > 10) {
-          char = 3;
+          if(item < chances[i] + hold)
+            char = i;
+          else
+            hold = hold + chances[i];
         }
-      }else if(mod === 'wall') {
-        if(item > 25)
-        {
-          char = 1;
-        } else if (item >20) {
-          char = 0;
-        } else if (item >12) {
-          char = 2;
-        } else if (item > 10) {
-          char = 3;
-        } else {
-          char = 0;
-        }
-      }else if(mod === 'open') {
-        if(item > 25)
-        {
-          char = 0;
-        } else if (item >20) {
-          char = 2;
-        } else if (item >12) {
-          char = 1;
-        } else if (item > 10) {
-          char = 3;
-        }
-      }
-      else if(mod === 'grass') {
-        if(item > 25)
-        {
-          char = 2;
-        } else if (item >20) {
-          char = 0;
-        } else if (item >12) {
-          char = 1;
-        } else if (item > 10) {
-          char = 3;
-        }
+        if(!char)
+          char = chances['default'];
       }else {
-        char = 0;
+        var chances = this.textureMap[mod];
+        var hold = 0;
+        for(var i=0; i < chances.size && !char; i++)
+        {
+          if(item < chances[i] + hold)
+            char = i;
+          else
+            hold = hold + chances[i];
+        }
+        if(!char)
+          char = chances['default'];
       }
       return char;
     },
@@ -387,11 +411,20 @@ function game(){
   }
   function moveValid(loc)
   {
+    var item = world.map[loc.x][loc.y].content;
     var pass = false;
     if(loc !== undefined && loc.x >= 0 && loc.y >=0 && loc.x <= world.width && loc.y <=world.height)
-      if(world.map[loc.x][loc.y].content === 0 || world.map[loc.x][loc.y].content === 2)
-        pass = true;
+    {
+      try{
+      var walk = world.textureMap[world.textureMap.types[item]].isWalkable;
 
+      if(walk)
+        pass = true;
+      }
+      catch(err){
+        console.log("Cannot walk on " + item);
+      }
+    }
     return pass;
   }
 
