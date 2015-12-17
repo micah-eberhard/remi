@@ -204,7 +204,7 @@ function game(){
         'default':0
       },
       tree: {
-        isWalkable:true,
+        isWalkable:false,
         size:4,
         0:50,
         1:5,
