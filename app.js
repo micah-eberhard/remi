@@ -22,7 +22,6 @@ function game(){
     Fly
     Interact
   *******/
-
   //Entity
   /*******
   Properties
@@ -32,7 +31,6 @@ function game(){
     Agility
     Intelligence
     Charisma
-
   *******/
   var BuildEntity = function(){
     return {
@@ -91,7 +89,7 @@ function game(){
               y:char.location.y
             };
           }
-          if(moveValid(newLoc))
+          if(moveValid(newLoc, world))
           {
             var hold = world.map[newLoc.x][newLoc.y].origin;
             world.toOrigin(char.location);
@@ -409,14 +407,14 @@ function game(){
     moveWorld(world);
     world.display();
   }
-  function moveValid(loc)
+  function moveValid(loc, currWorld)
   {
-    var item = world.map[loc.x][loc.y].content;
+    var item = currWorld.map[loc.x][loc.y].content;
     var pass = false;
-    if(loc !== undefined && loc.x >= 0 && loc.y >=0 && loc.x <= world.width && loc.y <=world.height)
+    if(loc !== undefined && loc.x >= 0 && loc.y >=0 && loc.x <= currWorld.width && loc.y <=currWorld.height)
     {
       try{
-      var walk = world.textureMap[world.textureMap.types[item]].isWalkable;
+      var walk = currWorld.textureMap[currWorld.textureMap.types[item]].isWalkable;
 
       if(walk)
         pass = true;
@@ -500,19 +498,25 @@ function game(){
     }
     if (press ==='v')
     {
-      world.toOrigin(remi.location);
-      world = belowWorld;
-      world.map[remi.location.x][remi.location.y].content = 'x';
-      remi.atr.sight = Math.floor(remi.atr.sight / 5);
-      world.display();
+      if(moveValid(remi.location, belowWorld))
+      {
+        world.toOrigin(remi.location);
+        world = belowWorld;
+        world.map[remi.location.x][remi.location.y].content = 'x';
+        remi.atr.sight = Math.floor(remi.atr.sight / 5);
+        world.display();
+      }
     }
     if (press ==='f')
     {
-      world.toOrigin(remi.location);
-      world = mainWorld;
-      world.map[remi.location.x][remi.location.y].content = 'x';
-      remi.atr.sight = remi.atr._sightOrigin;
-      world.display();
+      if(moveValid(remi.location, mainWorld))
+      {
+        world.toOrigin(remi.location);
+        world = mainWorld;
+        world.map[remi.location.x][remi.location.y].content = 'x';
+        remi.atr.sight = remi.atr._sightOrigin;
+        world.display();
+      }
     }
   });
 /**********************
