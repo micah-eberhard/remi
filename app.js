@@ -173,7 +173,7 @@ function game(){
     map: [],
     worldTag: arguments[0],
     currentFlop: false,
-    height: 500,
+    height: 1000,
     width: 1000,
     scope: 10,
     textureMap: {
@@ -664,6 +664,8 @@ Initial Display
   fillWorld(mainWorld);
   fillWorld(belowWorld);
   world.map[remi.location.x][remi.location.y].content = 'x';
+
+  document.querySelector('#loadingImg').style.display = 'none';
   world.display();
 
 
